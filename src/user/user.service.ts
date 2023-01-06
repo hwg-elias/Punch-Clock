@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { compare } from 'bcrypt';
 import { UserResponseInterface } from './types/userResponse.interface';
+import { UpdateUserDto } from './dto/updateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -83,6 +84,15 @@ export class UserService {
 
 	async currentUser(user: UserEntity) {
 		return user;
+	}
+
+	async updateCurrentUser(
+		currentUserId: number,
+		updateUserDto: UpdateUserDto,
+	): Promise<UserEntity> {
+		const user = await this.findById(currentUserId);
+		Object.assign(user, updateUserDto);
+		return await this.userRepository.save(user);
 	}
 
 	async findById(id: number): Promise<UserEntity> {

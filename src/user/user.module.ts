@@ -10,5 +10,6 @@ import { AuthGuard } from './guards/auth.guard';
 	imports: [TypeOrmModule.forFeature([UserEntity, CompanyEntity])],
 	controllers: [UserController],
 	providers: [UserService, AuthGuard],
+	exports: [UserService],
 })
 export class UserModule {}
