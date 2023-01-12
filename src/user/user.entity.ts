@@ -3,10 +3,12 @@ import {
 	Column,
 	Entity,
 	ManyToOne,
+	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 import { hash } from 'bcrypt';
 import { CompanyEntity } from 'src/company/company.entity';
+import { PunchEntity } from 'src/punch/punch.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -38,6 +40,9 @@ export class UserEntity {
 		eager: true,
 	})
 	company: CompanyEntity;
+
+	@OneToMany(() => PunchEntity, (punch) => punch.employee)
+	punches: PunchEntity[];
 
 	@BeforeInsert()
 	async hashPassword() {

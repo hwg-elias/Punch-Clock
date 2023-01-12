@@ -37,6 +37,7 @@ export class UserService {
 
 		const companyById = await this.companyRepository.findOne({
 			where: { id: createUserDto.company },
+			select: ['company_name', 'email', 'employees', 'employees_count', 'id'],
 		});
 
 		if (!companyById) {
@@ -54,7 +55,7 @@ export class UserService {
 		companyById.employees_count++;
 
 		await this.companyRepository.save(companyById);
-
+		delete newUser.company.employees_count;
 		return await this.userRepository.save(newUser);
 	}
 
@@ -66,12 +67,19 @@ export class UserService {
 			select: ['id', 'username', 'email', 'password', 'company', 'role'],
 		});
 
+		if (!user) {
+			throw new HttpException(
+				'Credentials are not valid',
+				HttpStatus.UNPROCESSABLE_ENTITY,
+			);
+		}
+
 		const isPasswordCorrect = await compare(
 			loginUserDto.password,
 			user.password,
 		);
 
-		if (!user || !isPasswordCorrect) {
+		if (!isPasswordCorrect) {
 			throw new HttpException(
 				'Credentials are not valid',
 				HttpStatus.UNPROCESSABLE_ENTITY,
@@ -90,7 +98,23 @@ export class UserService {
 		currentUserId: number,
 		updateUserDto: UpdateUserDto,
 	): Promise<UserEntity> {
-		const user = await this.findById(currentUserId);
+		const user = await this.userRepository.findOne({
+			where: { id: currentUserId },
+			select: ['id', 'username', 'email', 'password', 'company', 'role'],
+		});
+		const isPasswordCorrect = await compare(
+			updateUserDto.password,
+			user.password,
+		);
+
+		if (!isPasswordCorrect) {
+			throw new HttpException(
+				'Credentials are not valid',
+				HttpStatus.UNPROCESSABLE_ENTITY,
+			);
+		}
+
+		delete user.password;
 		Object.assign(user, updateUserDto);
 		return await this.userRepository.save(user);
 	}

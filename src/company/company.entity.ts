@@ -9,7 +9,7 @@ export class CompanyEntity {
 	@Column()
 	company_name: string;
 
-	@Column({ default: 0 })
+	@Column({ select: false, default: 0 })
 	employees_count: number;
 
 	@Column()

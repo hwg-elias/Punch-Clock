@@ -9,7 +9,11 @@ export class CompanyService {
 		@InjectRepository(CompanyEntity)
 		private readonly companyRepository: Repository<CompanyEntity>,
 	) {}
-	async companyService(company: CompanyEntity): Promise<CompanyEntity> {
+	async registerCompany(company: CompanyEntity): Promise<CompanyEntity> {
 		return await this.companyRepository.save(company);
+	}
+
+	async companyShow(id: number) {
+		return await this.companyRepository.findOne({ where: { id } });
 	}
 }

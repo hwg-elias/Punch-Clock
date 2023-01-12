@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { CompanyEntity } from './company.entity';
 import { CompanyService } from './company.service';
 
@@ -6,7 +6,12 @@ import { CompanyService } from './company.service';
 export class CompanyController {
 	constructor(private readonly companyService: CompanyService) {}
 	@Post('register')
-	async registerUser(@Body('company') company): Promise<CompanyEntity> {
-		return this.companyService.companyService(company);
+	async registerCompany(@Body('company') company): Promise<CompanyEntity> {
+		return this.companyService.registerCompany(company);
+	}
+
+	@Get('/:id')
+	async companyShow(id: number) {
+		return await this.companyService.companyShow(id);
 	}
 }
