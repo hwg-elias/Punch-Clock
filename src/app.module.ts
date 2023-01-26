@@ -1,19 +1,19 @@
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { config } from './ormconfig';
-import { UserModule } from './user/user.module';
+import { AppController } from '@app/app.controller';
+import { AppService } from '@app/app.service';
+import { UserModule } from '@app/user/user.module';
+import { CompanyModule } from '@app/company/company.module';
+import { AuthMiddleware } from '@app/user/middlewares/auth.middleware';
+import { PunchModule } from '@app/punch/punch.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CompanyModule } from './company/company.module';
-import { AuthMiddleware } from './user/middlewares/auth.middleware';
-import { PunchModule } from './punch/punch.module';
+import { config } from '@app/ormconfig';
 
 @Module({
 	imports: [
-		TypeOrmModule.forRoot(config),
 		UserModule,
 		CompanyModule,
 		PunchModule,
+		TypeOrmModule.forRoot(config),
 	],
 	controllers: [AppController],
 	providers: [AppService],

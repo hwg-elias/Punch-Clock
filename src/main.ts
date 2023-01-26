@@ -1,10 +1,11 @@
+if (!process.env.IS_TS_NODE) {
+	require('module-alias/register');
+}
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import AppDataSource from './ormconfig';
+import { AppModule } from '@app/app.module';
 
 async function bootstrap() {
-	AppDataSource.initialize();
 	const app = await NestFactory.create(AppModule);
-	await app.listen(3000);
+	await app.listen(3001);
 }
 bootstrap();

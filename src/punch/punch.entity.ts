@@ -1,4 +1,4 @@
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '@app/user/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'punches' })
@@ -14,6 +14,9 @@ export class PunchEntity {
 
 	@Column()
 	status: string;
+
+	@Column({ default: '' })
+	hoursWorked: string;
 
 	@ManyToOne(() => UserEntity, (user) => user.punches, {
 		eager: true,

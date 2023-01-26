@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
-import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { join } from 'path';
 import * as dotenv from 'dotenv';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 dotenv.config();
 
 export const config: PostgresConnectionOptions = {
@@ -10,10 +11,9 @@ export const config: PostgresConnectionOptions = {
 	username: process.env.DB_USERNAME,
 	password: process.env.DB_PASSWORD,
 	database: process.env.DB_NAME,
-	entities: [__dirname + '/**/*.entity{.ts,.js}'],
+	entities: [join(__dirname, '**', '*.entity.{ts,js}')],
 	synchronize: false,
-	migrations: ['src/migrations/**/*{.ts,.js}'],
+	migrations: [__dirname, '/migrations/**/*{.ts,.js}'],
 };
-const AppDataSource = new DataSource(config);
 
-export default AppDataSource;
+export const dataSource = new DataSource(config);

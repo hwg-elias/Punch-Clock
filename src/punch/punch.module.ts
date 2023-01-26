@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '@app/user/user.entity';
 import { PunchController } from './punch.controller';
 import { PunchEntity } from './punch.entity';
 import { PunchService } from './punch.service';

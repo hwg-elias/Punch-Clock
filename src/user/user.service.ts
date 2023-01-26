@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CompanyEntity } from 'src/company/company.entity';
-import { CreateUserDto } from './dto/createUser.dto';
+import { CompanyEntity } from '@app/company/company.entity';
+import { CreateUserDto } from '@app/user/dto/createUser.dto';
 import { UserEntity } from './user.entity';
 import { env } from 'process';
 import { sign } from 'jsonwebtoken';

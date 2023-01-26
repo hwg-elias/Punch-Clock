@@ -7,8 +7,8 @@ import {
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 import { hash } from 'bcrypt';
-import { CompanyEntity } from 'src/company/company.entity';
-import { PunchEntity } from 'src/punch/punch.entity';
+import { CompanyEntity } from '@app/company/company.entity';
+import { PunchEntity } from '@app/punch/punch.entity';
 
 @Entity({ name: 'users' })
 export class UserEntity {

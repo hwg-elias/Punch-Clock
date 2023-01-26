@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
-import { CompanyEntity } from './company.entity';
-import { CompanyService } from './company.service';
+import { CompanyEntity } from '@app/company/company.entity';
+import { CompanyService } from '@app/company/company.service';
 
 @Controller('companies')
 export class CompanyController {

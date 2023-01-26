@@ -1,8 +1,8 @@
 import { Controller, Post, UseGuards } from '@nestjs/common';
-import { User } from 'src/user/decorators/user.decorator';
-import { AuthGuard } from 'src/user/guards/auth.guard';
-import { PunchEntity } from './punch.entity';
-import { PunchService } from './punch.service';
+import { User } from '@app/user/decorators/user.decorator';
+import { AuthGuard } from '@app/user/guards/auth.guard';
+import { PunchEntity } from '@app/punch/punch.entity';
+import { PunchService } from '@app/punch/punch.service';
 
 @Controller('punch')
 export class PunchController {
@@ -10,6 +10,6 @@ export class PunchController {
 	@Post()
 	@UseGuards(AuthGuard)
 	async punchClock(@User('id') currentUserId: number): Promise<PunchEntity> {
-		return this.punchService.punchClock(currentUserId);
+		return await this.punchService.punchClock(currentUserId);
 	}
 }

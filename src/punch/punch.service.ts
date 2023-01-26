@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserEntity } from 'src/user/user.entity';
+import { UserEntity } from '@app/user/user.entity';
 import { Repository } from 'typeorm';
 import { PunchEntity } from './punch.entity';
 
@@ -20,12 +20,20 @@ export class PunchService {
 		let hoursWorked;
 		const lastPunchArray = await this.findLastPunch(user.id);
 
-		if (lastPunchArray[0].status === 'punch-in') statusPunch = 'punch-out';
+		if (lastPunchArray.length != 0 && lastPunchArray[0].status === 'punch-in') {
+			statusPunch = 'punch-out';
+			const punchIn = new Date() as any;
+			const punchOut = lastPunchArray[0].createdAt as any;
+			const difference = new Date(punchIn - punchOut);
 
-		console.log(hoursWorked);
+			hoursWorked = difference.getUTCHours() + 'h ';
+			hoursWorked += difference.getUTCMinutes() + 'm ';
+			hoursWorked += difference.getUTCSeconds() + 's';
+		}
 
 		return await this.punchRepository.save({
 			status: statusPunch,
+			hoursWorked,
 			employee: user,
 		});
 	}
@@ -38,7 +46,7 @@ export class PunchService {
 				},
 			},
 			order: { createdAt: 'DESC' },
-			take: 2,
+			take: 1,
 		});
 
 		return lastPunchArray;
