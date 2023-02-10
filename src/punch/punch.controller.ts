@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { User } from '@app/user/decorators/user.decorator';
 import { AuthGuard } from '@app/user/guards/auth.guard';
 import { PunchEntity } from '@app/punch/punch.entity';
@@ -11,5 +11,11 @@ export class PunchController {
 	@UseGuards(AuthGuard)
 	async punchClock(@User('id') currentUserId: number): Promise<PunchEntity> {
 		return await this.punchService.punchClock(currentUserId);
+	}
+
+	@Get('punches')
+	@UseGuards(AuthGuard)
+	async showPunches(@User('id') currentUserId: number): Promise<PunchEntity[]> {
+		return await this.punchService.showPunches(currentUserId);
 	}
 }

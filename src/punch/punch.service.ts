@@ -38,6 +38,13 @@ export class PunchService {
 		});
 	}
 
+	async showPunches(currentUserId: number): Promise<PunchEntity[]> {
+		return await this.punchRepository.find({
+			where: { employee: { id: currentUserId } },
+			order: { createdAt: 'DESC' },
+		});
+	}
+
 	async findLastPunch(id: number): Promise<PunchEntity[]> {
 		const lastPunchArray = await this.punchRepository.find({
 			where: {
