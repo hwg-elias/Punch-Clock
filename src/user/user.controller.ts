@@ -17,16 +17,19 @@ import { UpdateUserDto } from './dto/updateUser.dto';
 import { AuthGuard } from './guards/auth.guard';
 import { UserResponseInterface } from './types/userResponse.interface';
 import { UserService } from './user.service';
+import { Request } from 'express';
 
 @Controller('users')
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 	@Post('register')
 	@UsePipes(new ValidationPipe())
+	@UseGuards(AuthGuard)
 	async registerUser(
 		@Body('user') createUserDto: CreateUserDto,
+		@Req() req: Request,
 	): Promise<UserResponseInterface> {
-		const user = await this.userService.registerUser(createUserDto);
+		const user = await this.userService.registerUser(createUserDto, req);
 		return this.userService.buildUserResponse(user);
 	}
 

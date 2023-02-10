@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
-import { join } from 'path';
 import * as dotenv from 'dotenv';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { join } from 'path';
 dotenv.config();
 
 export const config: PostgresConnectionOptions = {
@@ -13,7 +13,7 @@ export const config: PostgresConnectionOptions = {
 	database: process.env.DB_NAME,
 	entities: [join(__dirname, '**', '*.entity.{ts,js}')],
 	synchronize: false,
-	migrations: [__dirname, '/migrations/**/*{.ts,.js}'],
+	migrations: [join(__dirname, '**', '/migrations/**/*{.ts,.js}')],
 };
 
 export const dataSource = new DataSource(config);

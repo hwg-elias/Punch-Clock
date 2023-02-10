@@ -7,7 +7,7 @@ export class UpdateUserDto {
 	readonly email: string;
 
 	@Length(8, 16)
-	readonly password: string;
+	password: string;
 
 	readonly description: string;
 

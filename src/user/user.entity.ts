@@ -2,6 +2,7 @@ import {
 	BeforeInsert,
 	Column,
 	Entity,
+	JoinColumn,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -9,6 +10,7 @@ import {
 import { hash } from 'bcrypt';
 import { CompanyEntity } from '@app/company/company.entity';
 import { PunchEntity } from '@app/punch/punch.entity';
+import { deflate } from 'zlib';
 
 @Entity({ name: 'users' })
 export class UserEntity {
@@ -17,6 +19,9 @@ export class UserEntity {
 
 	@Column()
 	username: string;
+
+	@Column({ default: '' })
+	full_name: string;
 
 	@Column()
 	email: string;
@@ -35,6 +40,9 @@ export class UserEntity {
 
 	@Column()
 	role: string;
+
+	@Column({ default: 'member' })
+	accountType: string;
 
 	@ManyToOne(() => CompanyEntity, (company) => company.employees, {
 		eager: true,

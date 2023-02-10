@@ -15,6 +15,15 @@ export class CompanyEntity {
 	@Column()
 	email: string;
 
+	@Column({ select: false, default: true })
+	activated: boolean;
+
+	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+	createdAt: Date;
+
+	@Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+	updatedAt: Date;
+
 	@OneToMany(() => UserEntity, (user) => user.company)
 	employees: UserEntity[];
 }

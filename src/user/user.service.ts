@@ -1,15 +1,21 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+	ConsoleLogger,
+	HttpException,
+	HttpStatus,
+	Injectable,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CompanyEntity } from '@app/company/company.entity';
 import { CreateUserDto } from '@app/user/dto/createUser.dto';
 import { UserEntity } from './user.entity';
 import { env } from 'process';
-import { sign } from 'jsonwebtoken';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import { Repository } from 'typeorm';
 import { LoginUserDto } from './dto/loginUser.dto';
 import { compare } from 'bcrypt';
 import { UserResponseInterface } from './types/userResponse.interface';
 import { UpdateUserDto } from './dto/updateUser.dto';
+import { Request } from 'express';
 
 @Injectable()
 export class UserService {
@@ -20,7 +26,16 @@ export class UserService {
 		private readonly companyRepository: Repository<CompanyEntity>,
 	) {}
 
-	async registerUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+	async registerUser(
+		createUserDto: CreateUserDto,
+		req: Request,
+	): Promise<UserEntity> {
+		const verifingAccountType = await this.accountType(
+			req.headers.authorization,
+		);
+		if (verifingAccountType != 'admin') {
+			throw new HttpException('Not authorized', HttpStatus.UNAUTHORIZED);
+		}
 		const userByUsername = await this.userRepository.findOne({
 			where: { username: createUserDto.username },
 		});
@@ -37,7 +52,7 @@ export class UserService {
 
 		const companyById = await this.companyRepository.findOne({
 			where: { id: createUserDto.company },
-			select: ['company_name', 'email', 'employees', 'employees_count', 'id'],
+			select: ['id', 'company_name', 'email', 'employees_count', 'createdAt'],
 		});
 
 		if (!companyById) {
@@ -51,7 +66,6 @@ export class UserService {
 
 		const newUser = new UserEntity();
 		Object.assign(newUser, createUserDto);
-
 		companyById.employees_count++;
 
 		await this.companyRepository.save(companyById);
@@ -64,7 +78,15 @@ export class UserService {
 			where: {
 				username: loginUserDto.username,
 			},
-			select: ['id', 'username', 'email', 'password', 'company', 'role'],
+			select: [
+				'id',
+				'username',
+				'email',
+				'password',
+				'company',
+				'role',
+				'accountType',
+			],
 		});
 
 		if (!user) {
@@ -91,7 +113,11 @@ export class UserService {
 	}
 
 	async currentUser(user: UserEntity) {
-		return user;
+		const currentUser = await this.userRepository.findOne({
+			where: { id: user.id },
+			select: ['company'],
+		});
+		return currentUser;
 	}
 
 	async updateCurrentUser(
@@ -100,7 +126,15 @@ export class UserService {
 	): Promise<UserEntity> {
 		const user = await this.userRepository.findOne({
 			where: { id: currentUserId },
-			select: ['id', 'username', 'email', 'password', 'company', 'role'],
+			select: [
+				'id',
+				'username',
+				'email',
+				'password',
+				'company',
+				'role',
+				'accountType',
+			],
 		});
 		const isPasswordCorrect = await compare(
 			updateUserDto.password,
@@ -115,6 +149,7 @@ export class UserService {
 		}
 
 		delete user.password;
+		delete updateUserDto.password;
 		Object.assign(user, updateUserDto);
 		return await this.userRepository.save(user);
 	}
@@ -140,8 +175,15 @@ export class UserService {
 				email: user.email,
 				role: user.role,
 				company: user.company,
+				accountType: user.accountType,
 			},
 			env.JWT_SECRET,
 		);
+	}
+	async accountType(bearerToken: string): Promise<string> {
+		const token = bearerToken.split(' ')[1];
+		const decodedToken = verify(token, env.JWT_SECRET) as JwtPayload;
+
+		return decodedToken.accountType;
 	}
 }
