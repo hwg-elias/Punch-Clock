@@ -17,3 +17,5 @@ The routes can be better seen in [Insomnia](https://insomnia.rest), the routes f
 At first, to initialize the project you can use teminal command ```yarn start``` by default, however it does not prevent you from being able to use ```npm``` as well if configured.
 
 The project relies on using migrations and to configure right is required to change [.env_example]() name to ".env" only and alter the informations inside to yours, then use terminal command ```yarn db:migrate``` to load all the migrations of create and alter tables in database, after that, use ```yarn db:seed``` to populate database with some datas preseteds, so it is possible to check some of funcionalities without send every single data by hands.
+
+To register new companies and users, the account type have to be "admin", if not you can't be able to access this routes. (After login, copy and place the token as a Bearer Token at another routes) So to make this possible, in the seeds, one of the account registered is an admin type as seen below.
