@@ -18,34 +18,7 @@ At first, to initialize the project you can use teminal command ```yarn start```
 
 The project relies on using migrations and to configure right is required to change [.env_example]() name to ".env" only and alter the informations inside to yours, then use terminal command ```yarn db:migrate``` to load all the migrations of create and alter tables in database, after that, use ```yarn db:seed``` to populate database with some datas preseteds, so it is possible to check some of funcionalities without send every single data by hands.
 
-## Some technical details
-
-To register new companies and users, the account type have to be "admin", if not you can't be able to access this routes. (After login, copy and place the token as a Bearer Token at another routes) So to make this possible, in the seeds, one of the account registered is an admin type as seen below.
-
-![USER ID 4](project_images/users/USER_ID_4.png)
-
-Now these are more users that can be accessed with login (Further on you will see how to send a requisition and how the reponse will look like).
-
-![USER ID 1](project_images/users/USER_ID_1.png) ![USER ID 2](project_images/users/USER_ID_2.png) ![USER ID 3](project_images/users/USER_ID_3.png)
-
-Then comes all companies registered with the seed.
-
-![COMPANY ID 1](project_images/companies/COMPANY_ID_1.png) ![COMPANY ID 2](project_images/companies/COMPANY_ID_2.png) ![COMPANY ID 3](project_images/companies/COMPANY_ID_3.png)
-
-### How to send requisition?
-
-#### User routes
-
-> Login User
-
-The correct way to send a requisition to **Login User** for example, is pass an object called user with fields username and password as the image below.
-
-![LOGIN SCREEN FIELDS]()
-
-At this point what I can tell you is that almost every requisition is to send an user object, what it change is the fields.
-
-> Create User
-
-To create it is necessary to send at least this fields (remembering that to have successful access to this route you will have to pass the correct bearer token of an "admin" account).
-
-# 🚧 IN PROCESS TO BUILDING... 🚧
+<h2 align='center'>Autor</h2>
+<div align='center'>
+  Made with ❤️ by <a href="https://github.com/hwg-elias">Gabriel Elias</a>
+</div>
