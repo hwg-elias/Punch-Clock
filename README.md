@@ -1,12 +1,12 @@
 # Punch Clock 👊
 
-"Punch Clock" is intended to enable the registration of the punch in and punch out of a company. With users and companies managed be a predetermined user account, the creation of different accounts with different access types, "Punch Clock" lends itself to doing the essencial of register data and calculating the difference of "IN" and "OUT". 
+"Punch Clock" is intended to enable the registration of the punch in and punch out of an employee. With users and companies managed be a predetermined user account, the creation of different accounts with different access types, "Punch Clock" lends itself to doing the essencial of register data and calculate the difference between "IN" and "OUT". 
 
 ---
 
 ## Technologies 
 
-The project was made with [Typescript](https://www.typescriptlang.org) inside the framework [NestJS](https://nestjs.com) with specific folders for each part of project. The mapping of relations and requisitions to database was managed using [TypeORM](https://typeorm.io) and the said database was registered in [PostgreSQL](https://www.postgresql.org). For reasons of organization and aesthetics [Eslint](https://eslint.org) and [Prettier](https://prettier.io).
+The project was made with [Typescript](https://www.typescriptlang.org) inside the framework [NestJS](https://nestjs.com) with specific folders for each part of project. The mapping of relations and requisitions to database was managed using [TypeORM](https://typeorm.io) and the said database was registered in [PostgreSQL](https://www.postgresql.org). For reasons of organization and aesthetic [Eslint](https://eslint.org) and [Prettier](https://prettier.io).
 
 ---
 
