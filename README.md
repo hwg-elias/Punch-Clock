@@ -57,5 +57,5 @@ The project relies on using migrations and to configure right is required to cha
 
 <h2 align='center'>Autor</h2>
 <div align='center'>
-  Made with ❤️ by <a href= https://github.com/hwg-elias">Gabriel Elias</a>
+  Made with ❤️ by <a href= https://github.com/hwg-elias>Gabriel Elias</a>
 </div>
